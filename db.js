@@ -3,9 +3,11 @@ const mysql = require('mysql2');
 connection.connect((err) => {
     if (err) {
         console.error('Errore di connessione al DB:', err.stack);
-        return;
+        return res.status(500).send('Errore nell\'eliminazione del post');
     }
-    console.log('Connesso al database con id ' + connection.threadId);
+    if (result.affectedRows === 0) {
+        return res.status(404).send('Post non trovato');
+    }
 });
 
 module.exports = connection;
